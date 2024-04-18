@@ -43,7 +43,6 @@ const chosenComponentStyles = {
 //#endregion
 
 
-
 const AdminPanel = () => {
 
   let isComponentUnmounted = false;

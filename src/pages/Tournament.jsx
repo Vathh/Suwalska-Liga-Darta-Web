@@ -17,6 +17,7 @@ const Header = styled.div`
   letter-spacing: .5px;
   padding: 15px 0;
   text-align: center;
+  margin-top: 50px;
 `
 
 //#endregion
@@ -66,7 +67,7 @@ const Tournament = () => {
       case 16: 
         return <TournamentBracket16 tournament={state.tournament}/>;
       default:
-        return <Header>Brak aktywnego turnieju</Header>
+        return <Header>Brak aktywnego turnieju.</Header>
     }
   }
 
@@ -74,7 +75,7 @@ const Tournament = () => {
 
   return (
     <>
-      {state.tournament && renderTournamentBracket(state.tournament.size)}
+      {renderTournamentBracket(state.tournament?.size)}
     </>
   )
 }

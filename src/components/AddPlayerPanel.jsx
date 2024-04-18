@@ -5,6 +5,7 @@ import { postPlayerReducer } from '../helpers/requestReducers/player/playerReduc
 import { PLAYERS_API_URL } from '../helpers/apiConfig'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
+import useAuth from '../hooks/useAuth';
 
 //#region STYLES
 
@@ -103,6 +104,8 @@ const iconStyles = {
 
 const AddPlayerPanel = ({ isVisible, onClose, fetchPlayers }) => {
 
+  const { auth } = useAuth();
+
   const panelStyle = {
     display: isVisible ? 'block' : 'none'
   };
@@ -131,7 +134,8 @@ const AddPlayerPanel = ({ isVisible, onClose, fetchPlayers }) => {
       const response = await fetch(PLAYERS_API_URL, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${auth?.accessToken}`
         },
         body: JSON.stringify(playerDTO)
       });

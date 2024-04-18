@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import useAuth from '../hooks/useAuth'
+import { LOGOUT_API_URL } from '../helpers/apiConfig'
 
 //#region STYLES
 
@@ -19,8 +21,6 @@ const Container = styled.div`
 const NavBtn = styled(Link)`
   position: relative;
   height: 100%;
-  display: flex;
-  align-items: center;
   margin: auto 0;
   font-size: 18px;
   padding-right: 20px;
@@ -56,6 +56,8 @@ const chosenComponentStyles = {
 
 const Nav = () => {
 
+  const { auth, setAuth } = useAuth();
+
   const [currentComponent, setCurrentComponent] = useState(0);
 
   const handleNavBtnStyles = (param) => {
@@ -69,12 +71,26 @@ const Nav = () => {
     setCurrentComponent(parseInt(e.target.getAttribute("data-nr")));
   }  
 
+  const logOut = async () => {    
+    try{      
+      const response = await fetch(LOGOUT_API_URL);
+
+      setAuth({});
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   return (
     <Container>
-      <NavBtn to='/tournament' onClick={handleNavBtn} style={handleNavBtnStyles(0)} data-nr={0}>Bieżący Turniej</NavBtn>
-      <NavBtn to='/season' onClick={handleNavBtn} style={handleNavBtnStyles(1)} data-nr={1}>Sezony</NavBtn>
-      <NavBtn to='/admin' onClick={handleNavBtn} style={handleNavBtnStyles(2)} data-nr={2}>Panel Admina</NavBtn>
-      <NavBtn to='/tournamentDetails' onClick={handleNavBtn} style={handleNavBtnStyles(3)} data-nr={3}>Turnieje</NavBtn>
+      <NavBtn to='/season' onClick={handleNavBtn} style={handleNavBtnStyles(0)} data-nr={0}>Sezony</NavBtn>
+      <NavBtn to='/tournament' onClick={handleNavBtn} style={handleNavBtnStyles(1)} data-nr={1}>Bieżący Turniej</NavBtn>
+      <NavBtn to='/tournamentDetails' onClick={handleNavBtn} style={handleNavBtnStyles(2)} data-nr={2}>Turnieje</NavBtn>
+      <NavBtn to='/admin' onClick={handleNavBtn} style={handleNavBtnStyles(3)} data-nr={3}>Panel Admina</NavBtn>
+
+      { auth?.userName && 
+        <NavBtn to='/' onClick={logOut}>Wyloguj się</NavBtn>
+      }
     </Container>
   )
 }
