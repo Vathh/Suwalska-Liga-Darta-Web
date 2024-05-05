@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import AddSeasonPanel from './AddSeasonPanel'
 import { SEASONS_DETAILS_API_URL } from '../helpers/apiConfig'
 import Popup from './Popup'
+import useAuth from '../hooks/useAuth'
 
 //#region STYLES
 
@@ -101,7 +102,9 @@ const displayNone = {
 
 //#endregion
 
-const SeasonsPanel = ({ currentComponent, seasons, fetchSeasons }) => {
+const SeasonsPanel = ({ currentComponent, seasons, fetchSeasons, fetchTournaments }) => {
+
+  const { auth } = useAuth();
 
   const [addSeasonVisibility, setAddSeasonVisibility] = useState(false);
   const [isDeleteConfirmationVisible, setIsDeleteConfirmationVisible] = useState(false);
@@ -121,7 +124,10 @@ const SeasonsPanel = ({ currentComponent, seasons, fetchSeasons }) => {
   const deleteSeason = async (seasonId) => {
     try{
       const response = await fetch(SEASONS_DETAILS_API_URL + seasonId, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${auth?.accessToken}`
+        }
       });
 
       if(response.ok){
@@ -167,7 +173,7 @@ const SeasonsPanel = ({ currentComponent, seasons, fetchSeasons }) => {
         </SeasonsContainer>
       }
       <AddSeasonBtn onClick={showAddSeasonPanel}>Dodaj nowy sezon</AddSeasonBtn>
-      <AddSeasonPanel isVisible={addSeasonVisibility} onClose={hideAddSeasonPanel} fetchSeasons={fetchSeasons}/>
+      <AddSeasonPanel isVisible={addSeasonVisibility} onClose={hideAddSeasonPanel} fetchSeasons={fetchSeasons} fetchTournaments={fetchTournaments}/>
     </Container>
   )
 }

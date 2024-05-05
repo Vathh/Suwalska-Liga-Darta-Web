@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { TOURNAMENT_START_API_URL } from '../helpers/apiConfig'
+import useAuth from '../hooks/useAuth'
+import Popup from './Popup'
 
 //#region STYLES
 
@@ -85,10 +87,26 @@ const SubmitBtn = styled.div`
 
 //#endregion
 
-const StartTournamentPanel = ({currentComponent, players, tournaments }) => {
+const StartTournamentPanel = ({currentComponent, players, tournaments, fetchTournaments }) => {
 
+  const { auth } = useAuth();
   const [chosenTournamentId, setChosenTournamentId] = useState();  
   const [selectedPlayersIds, setSelectedPlayersIds] = useState([]);
+  const [popupVisibility, setPopupVisibility] = useState(false);
+
+  const handleStartClick = () => {
+    setPopupVisibility(true);
+  }
+
+  const handleStartConfirmation = (confirmed) => {
+    if(confirmed){
+      handleStartBtn();
+    }
+
+    setPopupVisibility(false);
+  }
+
+  const startHeader = "Czy na pewno chcesz wystartować ten turniej?";
 
   const renderTournamentsOptions = () => {
     return tournaments.map(tournament => {
@@ -127,10 +145,7 @@ const StartTournamentPanel = ({currentComponent, players, tournaments }) => {
     setSelectedPlayersIds(updatedSelectedPlayersIds);
   }
 
-  const handleStartBtn = async (e) => {
-    e.preventDefault();
-    console.log("test");
-
+  const handleStartBtn = async () => {
     try{
       const startTournamentDTO = {
         tournamentId: chosenTournamentId,
@@ -139,9 +154,10 @@ const StartTournamentPanel = ({currentComponent, players, tournaments }) => {
 
       const response = await fetch(
         TOURNAMENT_START_API_URL, {
-          method: 'PATCH',
+          method: 'PATCH',          
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${auth?.accessToken}`
           },
           body: JSON.stringify(startTournamentDTO)
         });
@@ -150,6 +166,7 @@ const StartTournamentPanel = ({currentComponent, players, tournaments }) => {
           console.log(`Turniej o ID ${chosenTournamentId} wystartował!`);
           console.log(startTournamentDTO);
           resetData();
+          fetchTournaments();
         }else{
           console.error('Blad podczas startowania sezonu', response.statusText);
         }
@@ -185,7 +202,10 @@ const StartTournamentPanel = ({currentComponent, players, tournaments }) => {
           {renderPlayers()}
         </PlayersContainer>
       </PlayersPanel>
-      <SubmitBtn onClick={handleStartBtn}>START</SubmitBtn>
+      <SubmitBtn onClick={handleStartClick}>START</SubmitBtn>
+
+      {popupVisibility && <Popup handleConfirmation={handleStartConfirmation} header={startHeader} title=""
+      isConfirmationVisible={popupVisibility}/>}
     </Container>
   )
 }

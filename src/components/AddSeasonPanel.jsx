@@ -6,6 +6,7 @@ import { postSeasonReducer } from '../helpers/requestReducers/season/seasonReduc
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
+import useAuth from '../hooks/useAuth';
 
 //#region STYLES
 
@@ -156,6 +157,9 @@ const iconStyles = {
 //#endregion
 
 const AddSeasonPanel = ({ isVisible, onClose, fetchSeasons, fetchTournaments }) => {
+
+  const { auth } = useAuth();
+
   const panelStyle = {
     display: isVisible ? 'block' : 'none'
   };
@@ -209,7 +213,6 @@ const AddSeasonPanel = ({ isVisible, onClose, fetchSeasons, fetchTournaments }) 
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Wprowadzone dane', {state, selectedFridays});
 
     try{
       const seasonDTO = {
@@ -224,7 +227,8 @@ const AddSeasonPanel = ({ isVisible, onClose, fetchSeasons, fetchTournaments }) 
       const response = await fetch(SEASONS_API_URL, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${auth?.accessToken}`
         },
         body: JSON.stringify(seasonDTO)
       });

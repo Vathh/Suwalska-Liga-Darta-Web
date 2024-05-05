@@ -226,8 +226,6 @@ const TournamentBracket32 = ({ tournament }) => {
 
     const match = tournament.matches.filter(match => match.markup === markup)[0];
 
-    console.log(match);
-
     return (
       <Match variant={variant}>
         <Player show={match.playerA ? "1" : "0"} 

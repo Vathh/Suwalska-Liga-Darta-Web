@@ -52,7 +52,10 @@ const AdminPanel = () => {
   const [playersState, playersDispatch] = useReducer(getPlayersReducer, initialGetPlayersState);
 
   const openTournaments = tournamentsState.tournaments.filter(tournament => !tournament.closed).filter(tournament => !tournament.active);
-  const closedTournaments = tournamentsState.tournaments.filter(tournament => tournament.closed);  
+  const closedTournaments = tournamentsState.tournaments.filter(tournament => tournament.closed);
+  const activeTournament = tournamentsState.tournaments.filter(tournament => tournament.active);  
+
+  console.log(activeTournament);
 
   const [currentComponent, setCurrentComponent] = useState(0);
 
@@ -161,7 +164,9 @@ const AdminPanel = () => {
       <TournamentsPanel 
         currentComponent={currentComponent} 
         openTournaments={openTournaments} 
-        closedTournaments={closedTournaments}>
+        closedTournaments={closedTournaments}
+        activeTournament={activeTournament}
+        fetchTournaments={fetchTournaments}>
       </TournamentsPanel>
       <PlayersPanel 
         currentComponent={currentComponent} 
@@ -172,7 +177,8 @@ const AdminPanel = () => {
       <StartTournamentPanel 
         currentComponent={currentComponent}
         players={playersState.players}
-        tournaments={openTournaments}>        
+        tournaments={openTournaments}
+        fetchTournaments={fetchTournaments}>        
       </StartTournamentPanel>
       
     </Container>

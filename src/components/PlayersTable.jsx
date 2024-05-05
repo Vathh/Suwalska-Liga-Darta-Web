@@ -28,9 +28,7 @@ const PlayerTd = styled.td`
 
 //#endregion
 
-const PlayersTable = ({ players }) => {
-
-  
+const PlayersTable = ({ players }) => {  
 
   const renderPlayerRows = () => {
     return players.sort((a,b) => a.name.localeCompare(b.name)).map(player => 

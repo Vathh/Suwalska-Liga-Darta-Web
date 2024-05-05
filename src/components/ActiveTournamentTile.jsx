@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import Popup from './Popup'
-import { TOURNAMENT_DETAILS_API_URL } from '../helpers/apiConfig'
 import useAuth from '../hooks/useAuth'
+import { TOURNAMENT_DETAILS_API_URL } from '../helpers/apiConfig'
+import Popup from './Popup'
 
 //#region STYLES
 
@@ -59,54 +59,54 @@ const TournamentBtn = styled.button`
 
 //#endregion
 
-const OpenTournamentTile = ({ tournamentId, dateString, fetchTournaments }) => {
+const ActiveTournamentTile = ({ tournamentId, dateString, fetchTournaments }) => {
 
   const { auth } = useAuth();
-  
-  const [isDeleteConfirmationVisible, setIsDeleteConfirmationVisible] = useState(false);
-  
-  const handleDeleteClick = () => {
-    setIsDeleteConfirmationVisible(true);
+
+  const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
+
+  const handleCancelClick = () => {
+    setIsCancelConfirmationVisible(true);
   }
 
-  const deleteTournament = async () => {
+  const cancelTournament = async () => {
     try{
       const response = await fetch(TOURNAMENT_DETAILS_API_URL + tournamentId, {
-        method: 'DELETE',
+        method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${auth?.accessToken}`
         }
       });
 
       if(response.ok){
-        console.log(`Usunieto turniej o id: ${tournamentId}`);
+        console.log(`Anulowano turniej o id: ${tournamentId}`);
         fetchTournaments();
       }else {
-        console.error('Blad podczas usuwania turnieju', response.statusText);
+        console.error('Blad podczas anulowania turnieju', response.statusText);
       }
     } catch (error) {
       console.error('Blad podczas strzalu do API', error);
     }
   }
 
-  const handleDeleteConfirmation = (confirmed) => {
+  const handleCancelConfirmation = (confirmed) => {
     if(confirmed){
-      deleteTournament();
+      cancelTournament();
     }
 
-    setIsDeleteConfirmationVisible(false);
+    setIsCancelConfirmationVisible(false);
   }
 
-  const deleteHeader = "Czy na pewno chcesz usunąć ten turniej?";
+  const cancelHeader = "Czy na pewno chcesz anulować ten turniej?";
 
   return (
     <Tournament>
       <TournamentHeader>{dateString}</TournamentHeader>
-      <TournamentBtn onClick={handleDeleteClick}>Usuń</TournamentBtn>
+      <TournamentBtn onClick={handleCancelClick}>Anuluj</TournamentBtn>
 
-      {isDeleteConfirmationVisible && <Popup tournamentId={tournamentId} handleConfirmation={handleDeleteConfirmation} header={deleteHeader} title={dateString} isConfirmationVisible={isDeleteConfirmationVisible}/>}
+      {isCancelConfirmationVisible && <Popup handleConfirmation={handleCancelConfirmation} header={cancelHeader} title={dateString} isConfirmationVisible={isCancelConfirmationVisible}/>}
     </Tournament>
   )
 }
 
-export default OpenTournamentTile
+export default ActiveTournamentTile

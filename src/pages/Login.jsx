@@ -24,7 +24,8 @@ import styled from 'styled-components';
   `
 
   const ErrorMsg = styled.p`
-
+    color: #c5c5c5;
+    margin-bottom: 10px;
   `
 
   const Header = styled.h1`
@@ -123,7 +124,7 @@ const Login = () => {
       navigate(from, { replace: true });
     } catch (err) {
       if(!err?.response){
-        setErrorMsg('No Server Response');
+        setErrorMsg('Nazwa użytkownika lub hasło jest nieprawidłowe');
       } else if(err.response?.status === 400){
         setErrorMsg('Missing Username or Password');
       } else if(err.response?.status === 401){

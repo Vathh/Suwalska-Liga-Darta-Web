@@ -73,11 +73,20 @@ const Nav = () => {
 
   const logOut = async () => {    
     try{      
-      const response = await fetch(LOGOUT_API_URL);
+      const response = await fetch(LOGOUT_API_URL, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${auth?.accessToken}`
+        }
+      });
 
-      setAuth({});
-    } catch (err) {
-      console.error(err);
+      if(response.ok){
+        setAuth({});
+      }else{
+        console.error('Blad podczas wylogowywania', response.statusText);
+      }
+    } catch (error) {
+      console.error('Blad podczas strzalu do API', error);
     }
   }
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import OpenTournamentTile from './OpenTournamentTile'
 import ClosedTournamentTile from './ClosedTournamentTile'
+import ActiveTournamentTile from './ActiveTournamentTile'
 
 //#region STYLES
 
@@ -48,7 +49,7 @@ const SeasonOption = styled.option`
 
 //#endregion
 
-const TournamentsPanel = ({ currentComponent, openTournaments, closedTournaments }) => {
+const TournamentsPanel = ({ currentComponent, openTournaments, closedTournaments, activeTournament, fetchTournaments }) => {
   
   const [chosenSeason, setChosenSeason] = useState("");
   
@@ -59,7 +60,7 @@ const TournamentsPanel = ({ currentComponent, openTournaments, closedTournaments
       var month = ("0" + (date.getMonth() + 1)).slice(-2);
       var day = ("0" + date.getDate()).slice(-2);
       var dateString = `${year}-${month}-${day}`;
-      return <OpenTournamentTile key={tournament.tournamentId} tournamentId={tournament.tournamentId} dateString={dateString}/>
+      return <OpenTournamentTile key={tournament.tournamentId} tournamentId={tournament.tournamentId} dateString={dateString} fetchTournaments={fetchTournaments}/>
     });
   }
 
@@ -72,6 +73,17 @@ const TournamentsPanel = ({ currentComponent, openTournaments, closedTournaments
       var dateString = `${year}-${month}-${day}`;
       return <ClosedTournamentTile key={tournament.tournamentId} dateString={dateString}/>
     });
+  }
+
+  const renderActiveTournament = () => {
+    return activeTournament.map(tournament => {
+      var date = new Date(tournament.date);
+      var year = date.getFullYear();
+      var month = ("0" + (date.getMonth() + 1)).slice(-2);
+      var day = ("0" + date.getDate()).slice(-2);
+      var dateString = `${year}-${month}-${day}`;
+      return <ActiveTournamentTile key={tournament.tournamentId} tournamentId={tournament.tournamentId} dateString={dateString} fetchTournaments={fetchTournaments}/>
+    })
   }
 
   const seasonNamesSet = new Set(closedTournaments.map(tournament => tournament.seasonName));
@@ -90,6 +102,15 @@ const TournamentsPanel = ({ currentComponent, openTournaments, closedTournaments
   
   return (
     <Container style={currentComponent === 1 ? displayFlex : displayNone}>
+
+      {activeTournament.length > 0 && 
+        <Subcontainer>
+          <TournamentsContainerHeader>Aktywny turniej</TournamentsContainerHeader>
+          <TournamentsContainer>
+            {renderActiveTournament()}
+          </TournamentsContainer>
+        </Subcontainer>
+      }
 
       {openTournaments && 
         <Subcontainer>

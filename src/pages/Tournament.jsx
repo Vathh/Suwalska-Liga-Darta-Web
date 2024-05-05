@@ -71,8 +71,6 @@ const Tournament = () => {
     }
   }
 
-  console.log(state);
-
   return (
     <>
       {renderTournamentBracket(state.tournament?.size)}
