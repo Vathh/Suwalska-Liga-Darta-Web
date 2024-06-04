@@ -304,10 +304,7 @@ const TournamentBracket48 = ({ tournament }) => {
           {renderMatch("PF1", "variantPA1")}
         </Round>
         <Round>
-          {renderMatch("PG1", "variantPA1")}
-        </Round>
-        <Round>
-          {renderMatch("PH1", "blank")}
+          {renderMatch("PG1", "blank")}
         </Round>
       </Bracket>
       {<Header>Drabinka lewa</Header>}

@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { SEASONS_API_URL, SEASONS_DETAILS_API_URL } from '../helpers/apiConfig'
 import { getSeasonsReducer, seasonDetailsReducer } from '../helpers/requestReducers/season/seasonReducers'
 import { initialGetSeasonsState, initialSeasonDetailsState } from '../helpers/requestReducers/season/seasonActions'
-// import { FETCH_SUCCESS, FETCH_ERROR } from "../actions";
 import SeasonTable from '../components/SeasonTable'
 import { FETCH_ERROR, FETCH_SUCCESS } from '../helpers/requestReducers/actions'
 

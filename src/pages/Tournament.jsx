@@ -52,7 +52,12 @@ const Tournament = () => {
   useEffect(() => {
     fetchActiveTournament();
 
+    const refreshInterval = setInterval(() => {
+      fetchActiveTournament();
+    }, 300000);
+
     return () => {
+      clearInterval(refreshInterval);
       // eslint-disable-next-line react-hooks/exhaustive-deps
       isComponentUnmounted = true;
     } 
