@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-const API_BASE_URL = 'http://localhost:8190/league';
+const API_BASE_URL = 'http://localhost:8190/dart_league';
 
 const LOGOUT_ENDPOINT = "/logout";
 

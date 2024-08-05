@@ -228,13 +228,13 @@ const TournamentBracket48 = ({ tournament }) => {
 
     return (
       <Match variant={variant}>
-        <Player show={match.playerA ? "1" : "0"} 
-        winner={match.winner && match.winner.name === match.playerA.name ? "1" : "0"}>
-          {match.playerA ? match.playerA.name : "Nieznany"}
+        <Player show={match?.playerA ? "1" : "0"} 
+        winner={match.winner && match.winner?.name === match?.playerA?.name ? "1" : "0"}>
+          {match?.playerA ? match?.playerA?.name : "Nieznany"}
         </Player>
-        <Player show={match.playerB ? "1" : "0"}
-        winner={match.winner && match.winner.name === match.playerB.name ? "1" : "0"}>
-          {match.playerB ? match.playerB.name : "Nieznany"}
+        <Player show={match?.playerB ? "1" : "0"}
+        winner={match?.winner && match?.winner?.name === match?.playerB?.name ? "1" : "0"}>
+          {match?.playerB ? match?.playerB?.name : "Nieznany"}
         </Player>
       </Match>
     )

@@ -288,9 +288,6 @@ const TournamentBracket32 = ({ tournament }) => {
         <Round>
           {renderMatch("PF1", "blank")}
         </Round>
-        {/* <Round>
-          {renderMatch("PG1", "variantPA1")}
-        </Round> */}
       </Bracket>
       {<Header>Drabinka lewa</Header>}
       <Bracket>
