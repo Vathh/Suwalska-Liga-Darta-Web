@@ -3,7 +3,7 @@ This web application was created to manage dart tournaments within the Suwalska 
 
 The primary users of this application are tournament organizers, who can manage the entire process of running the tournaments, and participants or fans, who can follow the progress and outcomes of the games.
 
-Note: This application serves as the frontend component of the system and is designed to work in tandem with a dedicated backend API, which I also developed. The application relies on this API to function correctly, as it sends requests to the API where all the information is stored.
+Note: This application serves as the frontend component of the system and is designed to work in conjunction with a dedicated backend API, which I also developed. The application relies on this API to function correctly, as it sends requests to the API where all the information is stored.
 
 # Technologies Used
 This application is built using the following technologies:
